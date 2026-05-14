@@ -1,33 +1,38 @@
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader) }
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
 }
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
 android {
-    compileSdkVersion 34
-    buildToolsVersion "34.0.0"
+    namespace "com.vivo.assistant"
+    compileSdk 34
+    ndkVersion "27.0.12077973"
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions { jvmTarget = '11' }
-    sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17
+    }
+
     defaultConfig {
         applicationId "com.vivo.assistant"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 34
+        minSdk 21
+        targetSdk 34
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
-        release { signingConfig signingConfigs.debug }
+        release {
+            signingConfig signingConfigs.debug
+        }
     }
 }
-flutter { source '../..' }
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22"
+
+flutter {
+    source "../.."
 }

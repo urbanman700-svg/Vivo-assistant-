@@ -12,9 +12,14 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
-      - run: cd vivo_assistant && flutter pub get
-      - run: cd vivo_assistant && flutter build apk --release --no-tree-shake-icons
+      - name: Flutter pub get
+        run: cd vivo_assistant && flutter pub get
+      - name: Build APK
+        run: cd vivo_assistant && flutter build apk --release --no-tree-shake-icons
+      - name: Find APK
+        run: find /home/runner/work -name "*.apk" 2>/dev/null
       - uses: actions/upload-artifact@v4
         with:
           name: vivo-assistant-apk
-          path: vivo_assistant/build/app/outputs/flutter-apk/app-release.apk
+          path: vivo_assistant/build/app/outputs/apk/release/app-release.apk
+          if-no-files-found: warn

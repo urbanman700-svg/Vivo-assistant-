@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace "com.vivo.assistant"
+    namespace "com.urbanman.vivoai"
     compileSdk 34
     ndkVersion "27.0.12077973"
 
@@ -19,7 +19,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.vivo.assistant"
+        applicationId "com.urbanman.vivoai"
         minSdk 21
         targetSdk 34
         versionCode 1

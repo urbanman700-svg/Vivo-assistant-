@@ -17,12 +17,11 @@ jobs:
       - name: Build APK via Gradle
         run: |
           cd vivo_assistant/android
-          chmod +x gradlew
           ./gradlew assembleRelease
-      - name: Find APK
-        run: find . -name "*.apk" 2>/dev/null
+      - name: Find and upload APK
+        run: find . -name "*.apk" -type f
       - uses: actions/upload-artifact@v4
         with:
           name: vivo-assistant-apk
-          path: vivo_assistant/build/app/outputs/apk/release/app-release.apk
-          if-no-files-found: warn
+          path: vivo_assistant/android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error

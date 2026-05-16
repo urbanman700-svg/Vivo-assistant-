@@ -15,14 +15,18 @@ jobs:
           channel: 'stable'
       - name: Flutter pub get
         run: cd vivo_assistant && flutter pub get
-      - name: Build ARM32 APK
-        run: cd vivo_assistant && flutter build apk --release --no-tree-shake-icons --target-platform android-arm
+      - name: Build with Gradle directly
+        run: |
+          cd vivo_assistant/android
+          ./gradlew assembleRelease \
+            -Ptarget-platform=android-arm \
+            -Pdart-obfuscation=false \
+            -Ptrack-widget-creation=false \
+            -Ptree-shake-icons=false
       - name: Find APK
-        run: find . -name "*.apk" -type f 2>/dev/null
+        run: find . -name "*.apk" -type f
       - uses: actions/upload-artifact@v4
         with:
           name: vivo-assistant-apk
-          path: |
-            vivo_assistant/build/app/outputs/flutter-apk/app-release.apk
-            vivo_assistant/build/app/outputs/apk/release/app-release.apk
-          if-no-files-found: warn
+          path: vivo_assistant/android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error

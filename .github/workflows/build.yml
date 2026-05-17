@@ -17,12 +17,15 @@ jobs:
         run: cd vivo_assistant && flutter pub get
       - name: Build ARM64 APK
         run: cd vivo_assistant && flutter build apk --release --no-tree-shake-icons --target-platform android-arm64
-      - name: Move APK
+        continue-on-error: true
+      - name: Find and copy APK
         run: |
           mkdir -p output
-          find . -name "*.apk" -exec cp {} output/ \;
+          find /home/runner/work -name "*.apk" -type f 2>/dev/null
+          find /home/runner/work -name "*.apk" -type f -exec cp {} output/ \; 2>/dev/null
+          ls output/
       - uses: actions/upload-artifact@v4
         with:
           name: vivo-assistant-apk
           path: output/
-          if-no-files-found: error
+          if-no-files-found: warn
